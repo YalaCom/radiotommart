@@ -1,1 +1,1 @@
-(()=>{const s=document.createElement('script');s.src='app-v2.js?v=20260810-2';document.head.appendChild(s)})();
+(()=>{const s=document.createElement('script');s.src='app-v2.js?v=20260810-3';document.head.appendChild(s)})();
