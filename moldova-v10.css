@@ -1,0 +1,152 @@
+/* TomMart Premium Moldova v10 — visual override over Premium Gold v9 */
+:root{
+  --md-blue:#0046a8;
+  --md-yellow:#ffd200;
+  --md-red:#d71920;
+  --md-gold:#e0ba62;
+}
+
+/* Moldova tricolor returns as a premium light rail */
+.flag{
+  height:5px!important;
+  display:grid!important;
+  grid-template-columns:1fr 1fr 1fr!important;
+  background:none!important;
+  box-shadow:0 0 24px #000!important;
+  overflow:visible!important;
+}
+.flag i{display:block!important;position:relative!important}
+.flag i:nth-child(1){background:linear-gradient(90deg,#002e72,var(--md-blue),#1268d6)!important;box-shadow:0 0 18px #0066ff88!important}
+.flag i:nth-child(2){background:linear-gradient(90deg,#d4a800,var(--md-yellow),#ffe65c)!important;box-shadow:0 0 18px #ffd20088!important}
+.flag i:nth-child(3){background:linear-gradient(90deg,#a90c12,var(--md-red),#f03840)!important;box-shadow:0 0 18px #e7192280!important}
+.flag:after{content:"";position:absolute;left:50%;top:5px;width:170px;height:1px;transform:translateX(-50%);background:linear-gradient(90deg,transparent,#e1bd68aa,transparent)}
+
+body{
+  background:
+    radial-gradient(circle at 12% 14%,#0046a81c,transparent 27%),
+    radial-gradient(circle at 50% -8%,#ffd20015,transparent 31%),
+    radial-gradient(circle at 90% 17%,#d7192017,transparent 26%),
+    linear-gradient(180deg,#070707 0%,#030303 100%)!important;
+}
+body:before{
+  background-image:
+    linear-gradient(#d8b35a08 1px,transparent 1px),
+    linear-gradient(90deg,#d8b35a07 1px,transparent 1px)!important;
+}
+body:after{
+  background:
+    radial-gradient(circle at 18% 48%,#0046a80b,transparent 22%),
+    radial-gradient(circle at 50% 45%,#ffd20007,transparent 24%),
+    radial-gradient(circle at 82% 48%,#d719200a,transparent 22%)!important;
+  filter:blur(48px)!important;
+  animation:none!important;
+}
+
+/* Brand with understated Moldovan signature */
+.brand:after{content:"PREMIUM MOLDOVA RADIO"!important;color:#c7ab69!important}
+.brand:before{
+  content:"";position:absolute;left:2px;bottom:-7px;width:84px;height:2px;border-radius:10px;
+  background:linear-gradient(90deg,var(--md-blue) 0 33.33%,var(--md-yellow) 33.33% 66.66%,var(--md-red) 66.66%);
+  box-shadow:0 0 12px #ffffff12;
+}
+body.tm-admin .brand:after{content:"PREMIUM MOLDOVA STUDIO"!important}
+
+/* Moldova capsule in header */
+.pill{position:relative!important;overflow:hidden!important;padding-left:15px!important}
+.pill:before{display:none!important}
+.pill:after{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:linear-gradient(180deg,var(--md-blue) 0 33.33%,var(--md-yellow) 33.33% 66.66%,var(--md-red) 66.66%);
+}
+.mf{
+  display:grid!important;width:25px!important;height:15px!important;grid-template-columns:repeat(3,1fr)!important;
+  border-radius:4px!important;overflow:hidden!important;box-shadow:0 0 0 1px #ffffff18,0 4px 14px #0008!important;
+}
+.mf i{display:block!important}
+.mf i:nth-child(1){background:var(--md-blue)!important}.mf i:nth-child(2){background:var(--md-yellow)!important}.mf i:nth-child(3){background:var(--md-red)!important}
+
+/* Hero receives blue/red shadows around the gold center */
+.card{
+  background:
+    radial-gradient(circle at 8% 18%,#0046a812,transparent 25%),
+    radial-gradient(circle at 92% 18%,#d7192010,transparent 25%),
+    linear-gradient(145deg,#15130fda 0%,#0a0908ec 52%,#050505f2 100%)!important;
+}
+.card:before{
+  background:
+    radial-gradient(circle at 50% 38%,#d8b35a1d,transparent 27%),
+    linear-gradient(90deg,#0046a808,transparent 26% 74%,#d7192008),
+    linear-gradient(120deg,transparent 45%,#d8b35a08 50%,transparent 55%)!important;
+}
+.card:after{
+  background:conic-gradient(from 215deg,#0046a818,#ffd20018,#d7192018,#0046a818)!important;
+  filter:blur(18px)!important;
+}
+.card h1 em{position:relative!important}
+.card h1 em:after{
+  content:"";display:block;width:94px;height:2px;margin:15px auto 0;border-radius:20px;
+  background:linear-gradient(90deg,var(--md-blue) 0 33.33%,var(--md-yellow) 33.33% 66.66%,var(--md-red) 66.66%);
+  box-shadow:-18px 0 20px #0046a833,0 0 20px #ffd2002e,18px 0 20px #d7192030;
+}
+
+/* Record center: premium Moldovan roundel */
+.core{
+  background:
+    radial-gradient(circle at center,#10100d 0 43%,transparent 44%),
+    conic-gradient(from -90deg,var(--md-blue) 0 33.33%,var(--md-yellow) 33.33% 66.66%,var(--md-red) 66.66%)!important;
+  border:1px solid #e5c77399!important;
+  box-shadow:inset 0 0 0 6px #070706,0 0 0 8px #d8b35a10,0 18px 40px #0009!important;
+}
+.core:before{content:"TM"!important;color:#ead083!important;font-family:"Cormorant Garamond",serif!important;font-size:27px!important;letter-spacing:-.06em!important;text-shadow:0 2px 10px #000!important}
+
+/* Main action has the Moldovan tricolor as a thin premium border */
+.main{
+  padding:1px!important;
+  background:linear-gradient(90deg,var(--md-blue),var(--md-yellow) 50%,var(--md-red))!important;
+  box-shadow:0 18px 38px #0009,-10px 0 32px #0046a81c,0 0 30px #ffd20012,10px 0 32px #d7192019!important;
+}
+.main:before{inset:2px!important}
+.main span{color:#ead18d!important}
+.main.on{background:linear-gradient(90deg,#0046a8,#ffd200 48%,#d71920)!important}
+
+/* Status uses Moldova colors contextually without losing premium look */
+.dot.ok{background:var(--md-yellow)!important;box-shadow:0 0 12px #ffd20099!important}
+.dot.warn{background:#e0ba62!important}
+.dot.live,.dot.bad{background:var(--md-red)!important;box-shadow:0 0 12px #d7192088!important}
+
+/* Panels: subtle national edge */
+.now:after,.studio:after,.playlist:after,.tm-chat:after{
+  content:"";position:absolute;left:18px;right:18px;top:0;height:1px;pointer-events:none;
+  background:linear-gradient(90deg,#0046a855,transparent 28% 72%,#d7192055);
+}
+.now,.studio,.playlist,.tm-chat{position:relative!important}
+
+/* Now playing chip */
+.chip{position:relative!important;overflow:hidden!important}
+.chip:before{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:linear-gradient(90deg,var(--md-blue) 0 33.33%,var(--md-yellow) 33.33% 66.66%,var(--md-red) 66.66%)}
+
+/* Admin controls */
+body.tm-admin .playlist{box-shadow:inset 0 1px #ffffff0b,0 24px 70px #0009,-12px 0 40px #0046a80c,12px 0 40px #d719200b!important}
+body.tm-admin .track-row:nth-child(1) .track-num{color:#77aef6!important;border-color:#0046a84d!important;background:#0046a818!important}
+body.tm-admin .track-row:nth-child(2) .track-num{color:#f4d55f!important;border-color:#ffd20042!important;background:#ffd20010!important}
+body.tm-admin .main.on span{color:#fff0da!important}
+
+/* Chat: Moldova identity without turning it childish */
+.tm-chat-head{position:relative!important;background:linear-gradient(90deg,#0046a80b,#ffd20007 50%,#d7192009)!important}
+.tm-chat-head:after{content:"";position:absolute;left:17px;bottom:0;width:70px;height:2px;background:linear-gradient(90deg,var(--md-blue) 0 33.33%,var(--md-yellow) 33.33% 66.66%,var(--md-red) 66.66%)}
+.tm-chat-online:before{background:var(--md-yellow)!important;box-shadow:0 0 9px #ffd20088!important}
+.tm-msg.mine{border-color:#0046a83a!important;background:linear-gradient(145deg,#0d1a2f,#090c12)!important}
+.tm-msg.host{border-color:#d8b35a55!important;background:linear-gradient(145deg,#34270f,#151006)!important}
+.tm-chat-send{position:relative!important;overflow:hidden!important;background:linear-gradient(180deg,#f0d17d,#ae7d2f)!important}
+.tm-chat-send:after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:linear-gradient(90deg,var(--md-blue) 0 33.33%,var(--md-yellow) 33.33% 66.66%,var(--md-red) 66.66%)}
+
+/* Decorative country signature */
+.app:after{
+  content:"MOLDOVA  •  MUZICĂ  •  LIVE";display:block;text-align:center;margin:24px 0 2px;
+  font-size:7px;font-weight:800;letter-spacing:.32em;color:#695f4d;
+}
+
+@media(max-width:390px){
+  .brand{font-size:34px!important}.brand:before{width:72px!important}
+  .card h1 em:after{width:82px!important}
+}
