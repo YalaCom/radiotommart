@@ -1,0 +1,51 @@
+name: Build radio manifest
+
+on:
+  push:
+    paths:
+      - 'music/**'
+      - '.github/workflows/build-radio-manifest.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install ffmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - name: Build duration manifest
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json, subprocess, pathlib
+          root = pathlib.Path('music')
+          out = {}
+          for p in sorted(root.glob('*.mp3')):
+              cmd = ['ffprobe','-v','error','-show_entries','format=duration','-of','default=noprint_wrappers=1:nokey=1',str(p)]
+              try:
+                  s = subprocess.check_output(cmd, text=True).strip()
+                  d = round(float(s), 3)
+                  if d > 0:
+                      out[p.name] = d
+              except Exception as e:
+                  print('FAILED', p.name, e)
+          pathlib.Path('durations-v15.json').write_text(json.dumps(out, ensure_ascii=False, indent=2), encoding='utf-8')
+          print('files:', len(out))
+          PY
+      - name: Commit manifest
+        run: |
+          if git diff --quiet -- durations-v15.json; then
+            echo 'Manifest unchanged'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add durations-v15.json
+          git commit -m 'Update exact radio durations'
+          git push
