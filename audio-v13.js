@@ -1,0 +1,14 @@
+(()=>{
+'use strict';
+const T=window.TM,e=T.el;
+T.ac=null;T.localKey='';T.playEpoch=0;
+T.audioCtx=()=>{if(!T.ac){const A=window.AudioContext||window.webkitAudioContext;T.ac=new A}return T.ac};
+T.unlock=async()=>{try{const c=T.audioCtx();if(c.state!=='running')await c.resume()}catch(_){}};
+T.meter=(stream,cb)=>{const c=T.audioCtx(),src=c.createMediaStreamSource(stream),an=c.createAnalyser();an.fftSize=512;src.connect(an);const d=new Uint8Array(an.frequencyBinCount);let raf;const run=()=>{an.getByteFrequencyData(d);let s=0;for(const x of d)s+=x;cb(Math.min(1,(s/d.length)/100));raf=requestAnimationFrame(run)};run();return()=>{cancelAnimationFrame(raf);try{src.disconnect()}catch(_){}}};
+T.srcFor=st=>st.segment==='track'?T.pathFor(T.TRACKS[st.track].file):st.segment==='radioJingle'?T.pathFor(T.RADIO_JINGLE.file):st.segment==='adJingle'?T.pathFor(T.AD_JINGLE.file):st.segment==='ad'?T.pathFor((T.ADS[st.ad]||T.ADS[0]).file):'';
+T.stateKey=st=>st?[st.sid||'',st.segment||'',st.track??'',st.ad??''].join(':'):'none';
+T.stopProgram=()=>{T.playEpoch++;try{e.music.onended=null;e.music.pause();e.music.playbackRate=1}catch(_){}T.localKey=''};
+async function waitMeta(a){if(a.duration&&Number.isFinite(a.duration))return;await new Promise(res=>{let done=false;const f=()=>{if(done)return;done=true;res()};a.addEventListener('loadedmetadata',f,{once:true});setTimeout(f,3500)})}
+T.playSegment=async(st,target=0,opt={})=>{if(!st||st.segment==='live')return false;const src=T.srcFor(st);if(!src)return false;const abs=new URL(src,location.href).href,key=T.stateKey(st),same=e.music.src===abs&&T.localKey===key&&!e.music.paused;target=Math.max(0,Number(target)||0);T.ui('music',st,true);if(same&&!opt.force){const diff=(e.music.currentTime||0)-target;if(Math.abs(diff)>0.28)try{e.music.currentTime=Math.min(target,Math.max(0,(e.music.duration||target+.1)-.08))}catch(_){}else if(Math.abs(diff)>0.07)try{e.music.playbackRate=diff>0?0.97:1.03;setTimeout(()=>{try{e.music.playbackRate=1}catch(_){}},900)}catch(_){}return true}T.stopProgram();const epoch=T.playEpoch;T.localKey=key;if(e.music.src!==abs)e.music.src=src;await waitMeta(e.music);if(epoch!==T.playEpoch)return false;try{if(e.music.duration&&Number.isFinite(e.music.duration))e.music.currentTime=Math.min(target,Math.max(0,e.music.duration-.08));else e.music.currentTime=target}catch(_){}try{await e.music.play();if(opt.onended)e.music.onended=opt.onended;return true}catch(_){return false}};
+T.playOneShot=async st=>{T.stopProgram();const epoch=T.playEpoch,src=T.srcFor(st);if(!src)return false;e.music.src=src;await waitMeta(e.music);try{e.music.currentTime=0;await e.music.play()}catch(_){return false}await new Promise(res=>{let done=false;const fin=()=>{if(done)return;done=true;try{if(epoch===T.playEpoch){e.music.onended=null;e.music.pause()}}catch(_){}res()};e.music.onended=fin;setTimeout(fin,((Number(st.dur)||5)+1.2)*1000)});return true};
+})();
