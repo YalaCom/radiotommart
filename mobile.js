@@ -1,0 +1,1 @@
+(()=>{const m=document.createElement('link');m.rel='manifest';m.href='manifest.webmanifest?v=20261005-2';document.head.appendChild(m);if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));})();
