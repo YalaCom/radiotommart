@@ -1,1 +1,15 @@
-(()=>{const styles=['premium-v9.css?v=20260810-9','moldova-v10.css?v=20260810-10'];for(const href of styles){const l=document.createElement('link');l.rel='stylesheet';l.href=href;document.head.appendChild(l)}const s=document.createElement('script');s.src='radio-v17.js?v=20260814-17';s.onerror=()=>{const t=document.getElementById('statusText');if(t)t.textContent='Ошибка загрузки TomMart v17'};document.head.appendChild(s)})();
+(()=>{
+  const VERSION='20261005-2';
+  for(const file of ['premium-v9.css','moldova-v10.css']){
+    const l=document.createElement('link');
+    l.rel='stylesheet';l.href=file+'?v='+VERSION;document.head.appendChild(l);
+  }
+  const fail=()=>{
+    const t=document.getElementById('statusText'),b=document.getElementById('mainBtn'),bt=document.getElementById('mainBtnText');
+    if(t)t.textContent='Не удалось загрузить радио. Проверь интернет и обнови страницу.';
+    if(b){b.disabled=false;b.onclick=()=>location.reload();}
+    if(bt)bt.textContent='ОБНОВИТЬ РАДИО';
+  };
+  const s=document.createElement('script');
+  s.src='radio-v17.js?v='+VERSION;s.defer=true;s.onerror=fail;document.head.appendChild(s);
+})();

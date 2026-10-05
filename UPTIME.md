@@ -1,0 +1,1 @@
+TomMart Radio is a static browser radio. Availability depends on GitHub Pages/CDN delivery and the listener's network. There is no always-running audio server: each listener reconstructs the same broadcast timeline locally from exact track durations and current time.
