@@ -1,5 +1,5 @@
 (()=>{
-  const VERSION='20261005-2';
+  const VERSION='20261005-18';
   for(const file of ['premium-v9.css','moldova-v10.css']){
     const l=document.createElement('link');
     l.rel='stylesheet';l.href=file+'?v='+VERSION;document.head.appendChild(l);
@@ -11,5 +11,5 @@
     if(bt)bt.textContent='ОБНОВИТЬ РАДИО';
   };
   const s=document.createElement('script');
-  s.src='radio-v17.js?v='+VERSION;s.defer=true;s.onerror=fail;document.head.appendChild(s);
+  s.src='radio-smooth-v18.js?v='+VERSION;s.defer=true;s.onerror=fail;document.head.appendChild(s);
 })();
