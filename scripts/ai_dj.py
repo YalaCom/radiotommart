@@ -154,10 +154,14 @@ def main():
     if not re.match(r"^[\w .,'ёЁа-яА-Я-]+$", city, flags=re.UNICODE):
         raise ValueError("Город содержит недопустимые символы.")
 
-    weather_fact = get_weather(city) if re.search(r"погод|температур|прогноз|осадк", command.lower()) else ""
-    text = ask_gemini(command, weather_fact, os.getenv("GEMINI_API_KEY", ""))
-    if not text:
-        text = build_fallback(command, weather_fact)
+    explicit = re.match(r"^\s*текст\s*:\s*(.*)$", command, flags=re.IGNORECASE | re.DOTALL)
+    if explicit:
+        text = explicit.group(1).strip()
+    else:
+        weather_fact = get_weather(city) if re.search(r"погод|температур|прогноз|осадк", command.lower()) else ""
+        text = ask_gemini(command, weather_fact, os.getenv("GEMINI_API_KEY", ""))
+        if not text:
+            text = build_fallback(command, weather_fact)
     text = re.sub(r"[*#\x00-\x1f]+", " ", text).strip()[:MAX_CHARS]
     if not text:
         raise ValueError("Нечего произносить.")
