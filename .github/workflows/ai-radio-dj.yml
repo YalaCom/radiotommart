@@ -1,0 +1,57 @@
+name: TomMart AI DJ (Russian Edge TTS)
+
+on:
+  workflow_dispatch:
+    inputs:
+      command:
+        description: 'Что сказать: "Поздоровайся и скажи погоду" или "Текст: ..."'
+        required: true
+        type: string
+      city:
+        description: 'Город для погоды'
+        required: false
+        default: 'Москва'
+        type: string
+      voice:
+        description: 'Русский голос ведущего'
+        required: true
+        default: 'ru-RU-DmitryNeural'
+        type: choice
+        options:
+          - ru-RU-DmitryNeural
+          - ru-RU-SvetlanaNeural
+          - ru-RU-DariyaNeural
+
+permissions:
+  contents: write
+
+concurrency:
+  group: tommart-ai-dj
+  cancel-in-progress: false
+
+jobs:
+  announce:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install free Edge TTS
+        run: python -m pip install --disable-pip-version-check edge-tts
+      - name: Generate Russian announcement
+        env:
+          DJ_COMMAND: ${{ inputs.command }}
+          DJ_CITY: ${{ inputs.city }}
+          DJ_VOICE: ${{ inputs.voice }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python scripts/ai_dj.py
+      - name: Publish announcement for Cloudflare Pages and GitHub Pages
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add dj/current.json dj/announcements
+          git commit -m "DJ: new Russian radio announcement"
+          git push origin HEAD:main
