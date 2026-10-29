@@ -1,5 +1,5 @@
 (()=>{
-  const VERSION='20261005-19';
+  const VERSION='20261029-dj1';
   for(const file of ['premium-v9.css','moldova-v10.css']){
     const l=document.createElement('link');
     l.rel='stylesheet';l.href=file+'?v='+VERSION;document.head.appendChild(l);
@@ -12,4 +12,6 @@
   };
   const s=document.createElement('script');
   s.src='radio-smooth-v18.js?v='+VERSION;s.defer=true;s.onerror=fail;document.head.appendChild(s);
+  const dj=document.createElement('script');
+  dj.src='dj-listener.js?v='+VERSION;dj.defer=true;document.head.appendChild(dj);
 })();
