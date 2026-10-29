@@ -17,6 +17,18 @@
   let busy = false;
   let originalVolume = null;
   let lastStatus = '';
+  let fadeTimer = null;
+  const DUCK_LEVEL = 0.03;
+  function fadeTo(target, duration = 250) {
+    if (fadeTimer) clearInterval(fadeTimer);
+    const from = music.volume;
+    const start = performance.now();
+    fadeTimer = setInterval(() => {
+      const progress = Math.min(1, (performance.now() - start) / duration);
+      music.volume = Math.max(0, Math.min(1, from + (target - from) * progress));
+      if (progress >= 1) { clearInterval(fadeTimer); fadeTimer = null; }
+    }, 25);
+  }
 
   function recent(announcement) {
     const ms = Date.parse(announcement.created_at || '');
@@ -26,8 +38,9 @@
 
   function restore() {
     if (originalVolume !== null) {
-      music.volume = originalVolume;
+      const target = originalVolume;
       originalVolume = null;
+      fadeTo(target, 600);
     }
     if (status && status.textContent === 'ИИ-ведущий в эфире') {
       status.textContent = lastStatus || 'TomMart играет';
@@ -55,7 +68,7 @@
     busy = true;
     originalVolume = music.volume;
     lastStatus = status?.textContent || '';
-    music.volume = Math.min(music.volume, 0.18);
+    fadeTo(Math.min(music.volume, DUCK_LEVEL), 180);
     if (status) status.textContent = 'ИИ-ведущий в эфире';
     speech.src = item.audio;
     try {
@@ -94,5 +107,5 @@
   });
   window.addEventListener('online', poll);
   poll();
-  setInterval(poll, 8000);
+  setInterval(poll, 2000);
 })();

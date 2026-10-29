@@ -1,5 +1,5 @@
 (()=>{
-  const VERSION='20261029-dj1';
+  const VERSION='20261030-dj2';
   for(const file of ['premium-v9.css','moldova-v10.css']){
     const l=document.createElement('link');
     l.rel='stylesheet';l.href=file+'?v='+VERSION;document.head.appendChild(l);

@@ -35,18 +35,15 @@ jobs:
     timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
       - name: Install free Edge TTS
-        run: python -m pip install --disable-pip-version-check edge-tts
+        run: python3 -m pip install --disable-pip-version-check --break-system-packages edge-tts
       - name: Generate Russian announcement
         env:
           DJ_COMMAND: ${{ inputs.command }}
           DJ_CITY: ${{ inputs.city }}
           DJ_VOICE: ${{ inputs.voice }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: python scripts/ai_dj.py
+        run: python3 scripts/ai_dj.py
       - name: Publish announcement for Cloudflare Pages and GitHub Pages
         shell: bash
         run: |
